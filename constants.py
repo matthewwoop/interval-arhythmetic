@@ -2,7 +2,6 @@ NOTES = [
     'A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G',
     'G#/Ab'
 ]
-
 """
     Notes
 
@@ -12,12 +11,12 @@ NOTES = [
 """
 INTERVALS = {
     'm2': {
-        'name': 'Minor 2nd',
+        'name': 'minor 2nd',
         'semitone_distance': 1
     },
     'M2': {
-        'name': 'Minor 2nd',
-        'semitone_distance': 1
+        'name': 'major 2nd',
+        'semitone_distance': 2
     },
     # ... Octave
 }

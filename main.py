@@ -66,16 +66,63 @@ def load_intervals(intervals):
     return intervals
 
 
+def generate_intervals(notes, intervals):
+    """
+        Creates a sentence describing the relationship between each note and the
+        note located an interval's distance away in semitones.
+
+        NOTE: Can definitely phrase that ^ better in the future lol
+        NOTE: We're assuming ascending intervals for now, descening support
+        would involve a factor of -1 in semitone distance
+    """
+
+    for k, v in intervals.items():
+        interval_name = v['name']
+        interval_dist = v['semitone_distance']
+
+        print(interval_name.capitalize())
+        print('=' * len(interval_name), '\n')
+
+        for start_note in notes:
+            end_note = compute_interval(start_note, interval_dist, scale=notes)
+            print('A {} above {} is {}.'.format(interval_name, start_note,
+                                                end_note))
+
+        print('\n')
+
+
+def compute_interval(start, semitones, scale=None):
+    """
+        Calculates the end note arrived at after travelling "n" semitones from
+        the start note.
+
+        start: string, e.g. 'A'
+        semitones: int [0, 11]
+        scale: list of notes ['A', ... , 'G#/Ab']
+    """
+
+    if scale is None:
+        scale = load_notes('all')
+
+    start_idx = scale.index(start)
+    end_idx = (start_idx + semitones) % len(scale)
+
+    return scale[end_idx]
+
+
 def main():
     # Collect command line arguments
     args = build_argparser().parse_args()
 
     # load corresponding notes and intervals specified in args
     notes = load_notes(args.notes)
-    print('Loaded notes: {}'.format(notes))
+    print('\nLoaded notes: {}'.format(notes))
 
     intervals = load_intervals(args.intervals)
-    print('Loaded intervals: {}'.format(intervals))
+    print('\nLoaded intervals: {}'.format(intervals))
+
+    print('\nGenerating Intervals\n')
+    generate_intervals(notes, intervals)
 
 
 if __name__ == "__main__":
